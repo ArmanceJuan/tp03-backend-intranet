@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
+import router from "./routers/router.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 8000;
@@ -15,8 +16,17 @@ app.use(cors());
 // App routers
 // ==========
 
-app.get("/", (req, res) => {
+app.use("/api", router);
+app.use("/", (req, res) => {
   res.send("Hello World!");
+});
+
+// ==========
+// Error 404
+// ==========
+
+app.use((req, res) => {
+  res.status(404).json({ message: "You are lost :(" });
 });
 
 // ==========

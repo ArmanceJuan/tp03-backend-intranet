@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -11,14 +11,14 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: ["male", "female"],
     },
-    firstName: {
+    firstname: {
       type: String,
       required: [true, "Please enter your first name"],
       trim: true,
       minlength: [3, "Your first name must be at least 3 characters"],
       maxlength: [50, "Your first name must not exceed 50 characters"],
     },
-    lastName: {
+    lastname: {
       type: String,
       required: [true, "Please enter your last name"],
       trim: true,
@@ -44,22 +44,13 @@ const userSchema = new mongoose.Schema(
       trim: true,
       minlength: [8, "Password must be at least 8 characters"],
       maxlength: [128, "Password must be less than 128 characters"],
-      validate: {
-        validator: function (password) {
-          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]{8,}$/.test(
-            password
-          );
-        },
-        message:
-          "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
-      },
     },
     phone: {
       type: String,
       required: true,
       trim: true,
     },
-    birthDate: {
+    birthdate: {
       type: Date,
       required: true,
     },
@@ -71,14 +62,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    picture: {
+    photo: {
       type: String,
-      default: "https://via.placeholder.com/150",
+      default:
+        "https://i.pinimg.com/736x/67/b2/cc/67b2cc4e28fcf735c303f1d43c1bd698.jpg",
     },
     category: {
       type: String,
-      enum: ["marketing", "client", "technique", "other"],
-      default: "other",
+      enum: ["Marketing", "Client", "Technique"],
     },
     isAdmin: {
       type: Boolean,
@@ -91,14 +82,12 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.methods.hashPassword = function (password) {
-  return crypto
-    .createHmac("sha256", process.env.HASH_SECRET)
-    .update(password)
-    .digest("hex");
+  const saltRounds = 10;
+  return bcrypt.hashSync(password, saltRounds);
 };
 
 userSchema.methods.comparePassword = function (password) {
-  return this.password === this.hashPassword(password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 const User = mongoose.model("User", userSchema);
