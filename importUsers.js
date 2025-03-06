@@ -20,7 +20,7 @@ const importUsers = async () => {
     const usersFilePath = path.join(__dirname, "./config/users.json");
 
     if (!fs.existsSync(usersFilePath)) {
-      console.error(`Le fichier ${usersFilePath} n'existe pas.`);
+      console.error(`${usersFilePath} does not exist`);
       process.exit(1);
     }
 
