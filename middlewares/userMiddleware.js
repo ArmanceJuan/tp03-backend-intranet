@@ -33,7 +33,7 @@ export const isAdmin = async (req, res, next) => {
       next();
     } else {
       res
-        .status(401) // Verifier les code 400 pour voir lequel correspond
+        .status(403)
         .json({ message: "Unauthorized access, you are not admin" });
     }
   } catch (error) {
