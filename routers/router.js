@@ -2,6 +2,7 @@ import express from "express";
 import {
   login,
   logout,
+  getCurrentUser,
   getRandomUser,
   getAllUsers,
   addUser,
@@ -17,6 +18,7 @@ router.delete("/user/:id/delete", authenticate, isAdmin, deleteUser);
 router.put("/user/:id/edit", authenticate, editUser);
 router.get("/user/:id/view", authenticate, viewUser);
 
+router.get("/user/current", authenticate, getCurrentUser);
 router.post("/user/add", authenticate, isAdmin, addUser);
 
 router.post("/logout", authenticate, logout);

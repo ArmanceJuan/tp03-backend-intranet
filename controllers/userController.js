@@ -331,3 +331,34 @@ export const deleteUser = async (req, res) => {
       .json({ message: "Error deleting user", error: error.message });
   }
 };
+
+// ============
+// Current user
+// ============
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    const user = req.user;
+
+    res.status(200).json({
+      user: {
+        id: user._id,
+        gender: user.gender,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        phone: user.phone,
+        birthdate: user.birthdate,
+        city: user.city,
+        country: user.country,
+        photo: user.photo,
+        category: user.category,
+        isAdmin: user.isAdmin,
+      },
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error getting current user", error: error.message });
+  }
+};
