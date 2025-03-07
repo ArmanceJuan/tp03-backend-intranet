@@ -144,14 +144,14 @@ export const addUser = async (req, res) => {
 
     if (
       !gender ||
-      !firstname ||
-      !lastname ||
-      !email ||
-      !password ||
+      !firstname.trim() ||
+      !lastname.trim() ||
+      !email.trim() ||
+      !password.trim() ||
       !phone ||
       !birthdate ||
-      !city ||
-      !country ||
+      !city.trim() ||
+      !country.trim() ||
       !category
     ) {
       return res
@@ -247,13 +247,13 @@ export const editUser = async (req, res) => {
 
     if (
       !gender ||
-      !firstname ||
-      !lastname ||
-      !email ||
-      !phone ||
+      !firstname.trim() ||
+      !lastname.trim() ||
+      !email.trim() ||
+      !phone.trim() ||
       !birthdate ||
-      !city ||
-      !country ||
+      !city.trim() ||
+      !country.trim() ||
       !category
     ) {
       return res
